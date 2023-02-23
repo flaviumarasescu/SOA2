@@ -1,0 +1,59 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+build:
+  artifacts:
+    - image: flaviumarasescu/list
+      context: list-service
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    - image: flaviumarasescu/item
+      context: item-service
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    - image: flaviumarasescu/query
+      context: query-service
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+#    - image: flaviumarasescu/todo-frontend
+#      context: todo-frontend
+#      sync:
+#        manual:
+#          - src: '**/*.js'
+#            dest: .
+#      docker:
+#        dockerfile: Dockerfile
+    - image: flaviumarasescu/todo-service
+      context: todo-service
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    - image: flaviumarasescu/app2-service
+      context: todo-service
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+  local:
+    push: false
+manifests:
+  rawYaml:
+    - ./config/k8s/*
+deploy:
+  kubectl: {}

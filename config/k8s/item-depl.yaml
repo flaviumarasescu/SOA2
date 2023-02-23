@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: item-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: item
+  template:
+    metadata:
+      labels:
+        app: item
+    spec:
+      containers:
+        - name: item
+          image: flaviumarasescu/item
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: item-service
+spec:
+  selector:
+    app: item
+  ports:
+    - name: item
+      protocol: TCP
+      port: 5001
+      targetPort: 5001
